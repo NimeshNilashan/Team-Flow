@@ -19,17 +19,17 @@
     - [x] Configure Prisma generated client output
     - [x] Verify `prisma validate`
     - [x] Verify `prisma migrate`
-  - [ ] **Port the Prisma learning work into TeamFlow**
-    - [ ] Create the initial `User` model
-    - [ ] Create the initial `Task` model
-    - [ ] Create `TaskStatus`
-    - [ ] Create `TaskPriority`
-    - [ ] Create User → Task relation
-    - [ ] Create `assigneeId` foreign key
-    - [ ] Create Task timestamps
-    - [ ] Create initial migration
-    - [ ] Apply migration
-    - [ ] Verify database structure
+  - [x] **Port the Prisma learning work into TeamFlow**
+    - [x] Create the initial `User` model
+    - [x] Create the initial `Task` model
+    - [x] Create `TaskStatus`
+    - [x] Create `TaskPriority`
+    - [x] Create User → Task relation
+    - [x] Create `assigneeId` foreign key
+    - [x] Create Task timestamps
+    - [x] Create initial migration
+    - [x] Apply migration
+    - [x] Verify database structure
   - [ ] **Port the NestJS Prisma integration you already built**
     - [ ] `PrismaService`
     - [ ] `PrismaModule`
