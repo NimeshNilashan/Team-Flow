@@ -1,17 +1,17 @@
 - [ ] **Phase 0 — TeamFlow foundation and migration of what you already learned**
   - [ ] **Branch: `main`**
   - [ ] Create the TeamFlow monorepo structure:
-    - [ ] `backend/`
-    - [ ] `frontend/`
-    - [ ] `.github/`
-    - [ ] root `README.md`
-    - [ ] root `.gitignore`
-    - [ ] root `.env.example`
+    - [x] `backend/`
+    - [x] `frontend/`
+    - [x] `.github/`
+    - [x] root `README.md`
+    - [x] root `.gitignore`
+    - [x] root `.env.example`
     - [ ] `docker-compose.yml`
   - [ ] **Backend foundation**
-    - [ ] Scaffold NestJS + TypeScript backend
-    - [ ] Enable strict TypeScript
-    - [ ] Configure Nest application bootstrap
+    - [x] Scaffold NestJS + TypeScript backend
+    - [x] Enable strict TypeScript
+    - [x] Configure Nest application bootstrap
     - [ ] Create `app.module.ts`
     - [ ] Create Prisma module
     - [ ] Create Prisma service
