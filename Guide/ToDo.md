@@ -1,6 +1,6 @@
 - [ ] **Phase 0 — TeamFlow foundation and migration of what you already learned**
   - [ ] **Branch: `main`**
-  - [ ] Create the TeamFlow monorepo structure:
+  - [x] Create the TeamFlow monorepo structure:
     - [x] `backend/`
     - [x] `frontend/`
     - [x] `.github/`
@@ -8,17 +8,17 @@
     - [x] root `.gitignore`
     - [x] root `.env.example`
     - [ ] `docker-compose.yml`
-  - [ ] **Backend foundation**
+  - [x] **Backend foundation**
     - [x] Scaffold NestJS + TypeScript backend
     - [x] Enable strict TypeScript
     - [x] Configure Nest application bootstrap
-    - [ ] Create `app.module.ts`
-    - [ ] Create Prisma module
-    - [ ] Create Prisma service
-    - [ ] Configure MySQL/MariaDB connection
-    - [ ] Configure Prisma generated client output
-    - [ ] Verify `prisma validate`
-    - [ ] Verify `prisma migrate`
+    - [x] Create `app.module.ts`
+    - [x] Create Prisma module
+    - [x] Create Prisma service
+    - [x] Configure MySQL/MariaDB connection
+    - [x] Configure Prisma generated client output
+    - [x] Verify `prisma validate`
+    - [x] Verify `prisma migrate`
   - [ ] **Port the Prisma learning work into TeamFlow**
     - [ ] Create the initial `User` model
     - [ ] Create the initial `Task` model
