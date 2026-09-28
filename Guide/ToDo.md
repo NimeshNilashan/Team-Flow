@@ -1,0 +1,702 @@
+- [ ] **Phase 0 — TeamFlow foundation and migration of what you already learned**
+  - [ ] **Branch: `main`**
+  - [ ] Create the TeamFlow monorepo structure:
+    - [ ] `backend/`
+    - [ ] `frontend/`
+    - [ ] `.github/`
+    - [ ] root `README.md`
+    - [ ] root `.gitignore`
+    - [ ] root `.env.example`
+    - [ ] `docker-compose.yml`
+  - [ ] **Backend foundation**
+    - [ ] Scaffold NestJS + TypeScript backend
+    - [ ] Enable strict TypeScript
+    - [ ] Configure Nest application bootstrap
+    - [ ] Create `app.module.ts`
+    - [ ] Create Prisma module
+    - [ ] Create Prisma service
+    - [ ] Configure MySQL/MariaDB connection
+    - [ ] Configure Prisma generated client output
+    - [ ] Verify `prisma validate`
+    - [ ] Verify `prisma migrate`
+  - [ ] **Port the Prisma learning work into TeamFlow**
+    - [ ] Create the initial `User` model
+    - [ ] Create the initial `Task` model
+    - [ ] Create `TaskStatus`
+    - [ ] Create `TaskPriority`
+    - [ ] Create User → Task relation
+    - [ ] Create `assigneeId` foreign key
+    - [ ] Create Task timestamps
+    - [ ] Create initial migration
+    - [ ] Apply migration
+    - [ ] Verify database structure
+  - [ ] **Port the NestJS Prisma integration you already built**
+    - [ ] `PrismaService`
+    - [ ] `PrismaModule`
+    - [ ] Inject `PrismaService` into services
+    - [ ] Verify NestJS starts successfully
+  - [ ] **Port the API concepts already completed**
+    - [ ] User DTO
+    - [ ] Task DTO
+    - [ ] `GET /users`
+    - [ ] `GET /users/:id` or equivalent ID route
+    - [ ] `GET /users/email/:email`
+    - [ ] User name filtering
+    - [ ] User filtering
+    - [ ] `POST /users`
+    - [ ] `GET /tasks`
+    - [ ] `POST /tasks`
+    - [ ] Task assignee relation retrieval
+    - [ ] `select`
+    - [ ] `include`
+    - [ ] `orderBy`
+    - [ ] pagination with `skip` / `take`
+    - [ ] `count`
+    - [ ] `Promise.all`
+    - [ ] `totalPages`
+    - [ ] optional task filtering
+  - [ ] Confirm everything that was previously working still works inside TeamFlow
+  - [ ] Commit the clean baseline to `main`
+
+- [ ] **Phase 1 — Authentication and User Management**
+  - [ ] **Branch: `feature/auth`**
+  - [ ] **User database**
+    - [ ] Add `passwordHash`
+    - [ ] Add `updatedAt`
+    - [ ] Keep `email` unique
+    - [ ] Create/update migration
+    - [ ] Apply migration
+  - [ ] **Authentication dependencies**
+    - [ ] Install `@nestjs/jwt`
+    - [ ] Install Passport dependencies
+    - [ ] Install `bcrypt`
+    - [ ] Install `class-validator`
+    - [ ] Install `class-transformer`
+  - [ ] **Register**
+    - [ ] Create `RegisterDto`
+    - [ ] Validate email
+    - [ ] Validate name
+    - [ ] Validate password
+    - [ ] Check whether email already exists
+    - [ ] Hash password with bcrypt
+    - [ ] Store only password hash
+    - [ ] Never return `passwordHash`
+    - [ ] Implement `POST /auth/register`
+  - [ ] **Login**
+    - [ ] Create `LoginDto`
+    - [ ] Find user by email
+    - [ ] Compare password with bcrypt
+    - [ ] Reject invalid credentials
+    - [ ] Sign JWT
+    - [ ] Return authentication result
+    - [ ] Implement `POST /auth/login`
+  - [ ] **JWT**
+    - [ ] Configure `JWT_SECRET`
+    - [ ] Decide JWT payload fields
+    - [ ] Create `JwtStrategy`
+    - [ ] Create `JwtAuthGuard`
+    - [ ] Create `@Public()`
+    - [ ] Create `@CurrentUser()`
+    - [ ] Protect authenticated routes
+    - [ ] Create one protected test route
+  - [ ] **Logout**
+    - [ ] Decide how logout works with your JWT design
+    - [ ] Implement `POST /auth/logout`
+    - [ ] Remove/expire client authentication state
+  - [ ] **Validation**
+    - [ ] Add global `ValidationPipe`
+    - [ ] Enable transformation
+    - [ ] Reject invalid DTO input
+  - [ ] **Tests**
+    - [ ] Test password hashing
+    - [ ] Test invalid login
+    - [ ] Test successful registration
+    - [ ] Test duplicate email
+    - [ ] Test JWT generation
+    - [ ] Test protected route
+  - [ ] **Configuration**
+    - [ ] Update `.env.example`
+    - [ ] Add `DATABASE_URL`
+    - [ ] Add `JWT_SECRET`
+    - [ ] Do not commit real secrets
+  - [ ] Self-review
+  - [ ] Open PR
+  - [ ] Merge to `main`
+  - [ ] Delete `feature/auth`
+
+- [ ] **Phase 2 — Workspaces and Multi-tenancy**
+  - [ ] **Branch: `feature/workspaces`**
+  - [ ] **Workspace database**
+    - [ ] Create `Workspace`
+    - [ ] Add `id`
+    - [ ] Add `name`
+    - [ ] Add timestamps
+  - [ ] **Workspace membership database**
+    - [ ] Create `WorkspaceMember`
+    - [ ] Add `workspaceId`
+    - [ ] Add `userId`
+    - [ ] Add `role`
+    - [ ] Add `createdAt`
+    - [ ] Create `WorkspaceRole` enum
+    - [ ] Add `OWNER`
+    - [ ] Add `ADMIN`
+    - [ ] Add `MEMBER`
+    - [ ] Add unique constraint on `(workspaceId, userId)`
+    - [ ] Add useful indexes
+    - [ ] Create relations to User and Workspace
+  - [ ] Update `User` relations
+    - [ ] User → WorkspaceMember
+  - [ ] Workspace creation
+    - [ ] Create `CreateWorkspaceDto`
+    - [ ] Validate workspace name
+    - [ ] Create workspace
+    - [ ] Automatically create creator's membership
+    - [ ] Automatically give creator `OWNER`
+    - [ ] Use a transaction for workspace + owner membership
+  - [ ] Workspace retrieval
+    - [ ] `GET /workspaces`
+    - [ ] Return only workspaces where current user is a member
+    - [ ] `GET /workspaces/:id`
+    - [ ] Reject non-members
+  - [ ] Membership helper
+    - [ ] Create reusable membership check
+    - [ ] Accept current user + workspace
+    - [ ] Verify membership
+    - [ ] Return membership information when useful
+    - [ ] Distinguish not-member from member
+  - [ ] Authentication integration
+    - [ ] Require JWT for workspace routes
+    - [ ] Use `@CurrentUser()`
+  - [ ] Tests
+    - [ ] User can create workspace
+    - [ ] Creator becomes OWNER
+    - [ ] Member sees workspace
+    - [ ] Non-member cannot access workspace
+    - [ ] User cannot see another user's workspace
+  - [ ] Migration
+    - [ ] Create migration
+    - [ ] Apply migration
+    - [ ] Verify relations
+  - [ ] Self-review
+  - [ ] Open PR
+  - [ ] Merge to `main`
+  - [ ] Delete `feature/workspaces`
+
+- [ ] **Phase 3 — Projects CRUD**
+  - [ ] **Branch: `feature/projects`**
+  - [ ] **Project database**
+    - [ ] Create `Project`
+    - [ ] Add `id`
+    - [ ] Add `workspaceId`
+    - [ ] Add `name`
+    - [ ] Add `description`
+    - [ ] Add project status if required
+    - [ ] Add timestamps
+    - [ ] Decide whether `deletedAt` is required now or later
+    - [ ] Add Workspace → Project relation
+    - [ ] Add index on `workspaceId`
+  - [ ] **Project DTOs**
+    - [ ] `CreateProjectDto`
+    - [ ] `UpdateProjectDto`
+    - [ ] Add validation
+  - [ ] **Project service**
+    - [ ] Create project inside workspace
+    - [ ] List projects by workspace
+    - [ ] Get project
+    - [ ] Update project
+    - [ ] Delete/soft-delete project
+  - [ ] **Authorization**
+    - [ ] Verify workspace membership before every operation
+    - [ ] Verify required role where necessary
+    - [ ] Return `403` for unauthorized access
+    - [ ] Prevent cross-workspace project access
+  - [ ] **Routes**
+    - [ ] `POST /workspaces/:id/projects`
+    - [ ] `GET /workspaces/:id/projects`
+    - [ ] `GET /projects/:id`
+    - [ ] `PATCH /projects/:id`
+    - [ ] `DELETE /projects/:id`
+  - [ ] **Prisma learning**
+    - [ ] Practice `create`
+    - [ ] Practice `findMany`
+    - [ ] Practice `findUnique`
+    - [ ] Practice `update`
+    - [ ] Practice `delete`
+    - [ ] Practice relation filtering
+  - [ ] Migration
+  - [ ] Tests
+  - [ ] Self-review
+  - [ ] PR
+  - [ ] Merge to `main`
+  - [ ] Delete `feature/projects`
+
+- [ ] **Phase 4 — Tasks Core**
+  - [ ] **Branch: `feature/tasks-core`**
+  - [ ] **Expand the existing Task model**
+    - [ ] Keep `title`
+    - [ ] Keep `description`
+    - [ ] Keep `status`
+    - [ ] Keep `priority`
+    - [ ] Keep `createdAt`
+    - [ ] Keep `updatedAt`
+    - [ ] Keep `assigneeId`
+    - [ ] Add `projectId`
+    - [ ] Add `dueDate`
+    - [ ] Add `version`
+    - [ ] Create Project → Task relation
+    - [ ] Keep User → Task assignee relation
+    - [ ] Decide and document required/optional fields
+  - [ ] **Task indexes**
+    - [ ] Index `projectId`
+    - [ ] Index `status`
+    - [ ] Index `assigneeId`
+    - [ ] Consider `dueDate`
+    - [ ] Avoid adding indexes without a query/use case
+  - [ ] **Task DTO**
+    - [ ] Create `CreateTaskDto`
+    - [ ] Validate title
+    - [ ] Validate description
+    - [ ] Validate status
+    - [ ] Validate priority
+    - [ ] Validate assignee ID
+    - [ ] Validate project ID/path relationship
+    - [ ] Validate due date
+  - [ ] **Task creation**
+    - [ ] Create task under a project
+    - [ ] Verify project exists
+    - [ ] Verify project belongs to workspace
+    - [ ] Verify current user is a workspace member
+    - [ ] Verify assignee belongs to same workspace
+    - [ ] Prevent assigning a user from another workspace
+  - [ ] **Task retrieval**
+    - [ ] `GET /projects/:id/tasks`
+    - [ ] `GET /tasks/:id`
+    - [ ] Return appropriate selected fields
+    - [ ] Return assignee where useful
+    - [ ] Return project where useful
+  - [ ] **Basic CRUD**
+    - [ ] Create
+    - [ ] Read
+    - [ ] Prepare update/delete for the next task-rules branch
+  - [ ] Migration
+  - [ ] Test task creation
+  - [ ] Test invalid assignee
+  - [ ] Test cross-workspace assignment
+  - [ ] Test project/task relationship
+  - [ ] Self-review
+  - [ ] PR
+  - [ ] Merge to `main`
+  - [ ] Delete `feature/tasks-core`
+
+- [ ] **Phase 5 — Task Business Rules**
+  - [ ] **Branch: `feature/tasks-rules`**
+  - [ ] **Task updates**
+    - [ ] Create `UpdateTaskDto`
+    - [ ] Make fields optional for PATCH
+    - [ ] Implement `PATCH /tasks/:id`
+    - [ ] Allow changing title
+    - [ ] Allow changing description
+    - [ ] Allow changing status
+    - [ ] Allow changing priority
+    - [ ] Allow changing assignee
+    - [ ] Allow changing due date
+  - [ ] **Task authorization**
+    - [ ] Verify current user can access the task
+    - [ ] Verify task's project
+    - [ ] Verify project's workspace
+    - [ ] Verify workspace membership
+  - [ ] **Status transition rules**
+    - [ ] Define valid transitions
+    - [ ] Define invalid transitions
+    - [ ] Reject invalid transitions
+    - [ ] Return clear error
+  - [ ] **Optimistic concurrency**
+    - [ ] Use `version`
+    - [ ] Require client version on updates
+    - [ ] Match current DB version
+    - [ ] Reject stale version
+    - [ ] Return `409 Conflict`
+    - [ ] Increment version after successful update
+  - [ ] **ActivityLog database**
+    - [ ] Create `ActivityLog`
+    - [ ] Add `id`
+    - [ ] Add `taskId`
+    - [ ] Add `userId`
+    - [ ] Add `action`
+    - [ ] Add metadata/JSON field where appropriate
+    - [ ] Add `createdAt`
+    - [ ] Add Task relation
+    - [ ] Add User relation
+  - [ ] **Activity service**
+    - [ ] Create reusable ActivityService
+    - [ ] Record task changes
+    - [ ] Record important business actions
+  - [ ] **Transaction**
+    - [ ] Update task
+    - [ ] Create activity record
+    - [ ] Execute both inside one Prisma transaction
+    - [ ] Verify rollback behaviour
+  - [ ] **Authorization helper**
+    - [ ] Create reusable authorization helper
+    - [ ] Centralize membership lookup
+    - [ ] Avoid duplicating workspace access logic
+  - [ ] Tests
+    - [ ] Valid status transition
+    - [ ] Invalid status transition
+    - [ ] Correct version
+    - [ ] Stale version returns `409`
+    - [ ] Task update + activity log succeed together
+    - [ ] Transaction rolls back on failure
+  - [ ] Migration
+  - [ ] Self-review
+  - [ ] PR
+  - [ ] Merge to `main`
+  - [ ] Delete `feature/tasks-rules`
+
+- [ ] **Phase 6 — Workspace Member Management**
+  - [ ] **Branch: `feature/members`**
+  - [ ] **Member operations**
+    - [ ] Create `InviteMemberDto`
+    - [ ] Create `ChangeRoleDto`
+    - [ ] Invite existing user by email/user ID
+    - [ ] Add membership
+    - [ ] Prevent duplicate membership
+    - [ ] Change member role
+    - [ ] Remove member
+  - [ ] **Authorization**
+    - [ ] Only OWNER can perform OWNER-sensitive operations
+    - [ ] OWNER/ADMIN can manage ordinary members
+    - [ ] Prevent MEMBER from managing members
+    - [ ] Prevent unauthorized cross-workspace actions
+  - [ ] **Last-owner protection**
+    - [ ] Count workspace owners
+    - [ ] Prevent removing the last OWNER
+    - [ ] Prevent changing the last OWNER to non-OWNER
+    - [ ] Return clear error
+  - [ ] **Routes**
+    - [ ] `POST /workspaces/:id/members`
+    - [ ] `PATCH /workspaces/:id/members/:memberId`
+    - [ ] `DELETE /workspaces/:id/members/:memberId`
+  - [ ] Tests
+    - [ ] Invite member
+    - [ ] Duplicate member rejected
+    - [ ] Admin permissions
+    - [ ] Member permissions rejected
+    - [ ] Last OWNER protected
+  - [ ] Self-review
+  - [ ] PR
+  - [ ] Merge to `main`
+  - [ ] Delete `feature/members`
+
+- [ ] **Phase 7 — Labels and Comments**
+  - [ ] **Branch: `feature/labels-comments`**
+  - [ ] **Label database**
+    - [ ] Create `Label`
+    - [ ] Add `id`
+    - [ ] Add `workspaceId`
+    - [ ] Add `name`
+    - [ ] Add `color`
+    - [ ] Add timestamps if useful
+    - [ ] Create Workspace → Label relation
+    - [ ] Consider unique `(workspaceId, name)`
+  - [ ] **TaskLabel database**
+    - [ ] Create `TaskLabel`
+    - [ ] Add `taskId`
+    - [ ] Add `labelId`
+    - [ ] Add composite uniqueness
+    - [ ] Create Task ↔ Label M2M relation
+  - [ ] **Comment database**
+    - [ ] Create `Comment`
+    - [ ] Add `id`
+    - [ ] Add `taskId`
+    - [ ] Add `authorId`
+    - [ ] Add `body`
+    - [ ] Add timestamps
+    - [ ] Create Task → Comment relation
+    - [ ] Create User → Comment relation
+  - [ ] **Labels API**
+    - [ ] `POST /workspaces/:id/labels`
+    - [ ] `GET /workspaces/:id/labels`
+    - [ ] `PATCH /labels/:id`
+    - [ ] `DELETE /labels/:id`
+    - [ ] Attach label to task
+    - [ ] Detach label from task
+  - [ ] **Comments API**
+    - [ ] `POST /tasks/:id/comments`
+    - [ ] `GET /tasks/:id/comments`
+  - [ ] **Authorization**
+    - [ ] Verify workspace membership
+    - [ ] Verify task belongs to workspace
+    - [ ] Verify label belongs to workspace
+    - [ ] Prevent cross-workspace label attachment
+  - [ ] **Prisma learning**
+    - [ ] Learn explicit many-to-many relationships
+    - [ ] Learn nested relation reads
+    - [ ] Learn relation create/connect operations
+    - [ ] Learn nested writes where useful
+  - [ ] Tests
+  - [ ] Migrations
+  - [ ] Self-review
+  - [ ] PR
+  - [ ] Merge to `main`
+  - [ ] Delete `feature/labels-comments`
+
+- [ ] **Phase 8 — Search, Filtering, Sorting and Final Pagination**
+  - [ ] **Branch: `feature/search-filter`**
+  - [ ] **Important: consolidate the filtering work you already built**
+    - [ ] Move the current status filter logic into the main task listing
+    - [ ] Move the current priority filter logic into the main task listing
+    - [ ] Move the current assignee filter logic into the main task listing
+    - [ ] Move pagination into the main task listing
+    - [ ] Move sorting into the main task listing
+    - [ ] Decide whether `/tasks/filter` should be removed
+  - [ ] Create `QueryTasksDto`
+  - [ ] Support `status`
+  - [ ] Support `priority`
+  - [ ] Support `assignee`
+  - [ ] Support `q`
+  - [ ] Support `page`
+  - [ ] Support `limit`
+  - [ ] Support `sort`
+  - [ ] Support sort direction
+  - [ ] Validate enum values
+  - [ ] Validate numeric parameters
+  - [ ] Validate pagination bounds
+  - [ ] Apply only supplied filters
+  - [ ] Build dynamic Prisma `where`
+  - [ ] Build dynamic Prisma `orderBy`
+  - [ ] Apply `skip`
+  - [ ] Apply `take`
+  - [ ] Use the same `where` for `count()` and `findMany()`
+  - [ ] Return:
+    - [ ] `data`
+    - [ ] `total`
+    - [ ] `page`
+    - [ ] `limit`
+    - [ ] `totalPages`
+  - [ ] **Search**
+    - [ ] Define exactly what `q` searches
+    - [ ] Decide title-only vs title + description
+    - [ ] Implement Prisma search condition
+    - [ ] Check performance
+    - [ ] Add appropriate database search/index strategy
+  - [ ] **Indexes**
+    - [ ] Review `projectId`
+    - [ ] Review `status`
+    - [ ] Review `priority`
+    - [ ] Review `assigneeId`
+    - [ ] Review `dueDate`
+    - [ ] Add composite indexes only where actual queries justify them
+  - [ ] **Pagination edge cases**
+    - [ ] Handle page below `1`
+    - [ ] Handle invalid limit
+    - [ ] Handle page beyond last page
+    - [ ] Define behaviour for zero results
+  - [ ] **Deterministic ordering**
+    - [ ] Use stable ordering for pagination
+    - [ ] Handle ties where necessary
+  - [ ] **Tests**
+    - [ ] Filter by status
+    - [ ] Filter by priority
+    - [ ] Filter by assignee
+    - [ ] Combine multiple filters
+    - [ ] Search by `q`
+    - [ ] Sort
+    - [ ] Pagination
+    - [ ] Filtered pagination count
+    - [ ] Invalid query parameters
+  - [ ] Migration for final indexes
+  - [ ] Self-review
+  - [ ] PR
+  - [ ] Merge to `main`
+  - [ ] Delete `feature/search-filter`
+
+- [ ] **Phase 9 — Frontend Core**
+  - [ ] **Branch: `feature/frontend-core`**
+  - [ ] Scaffold Next.js App Router
+  - [ ] Enable TypeScript
+  - [ ] Configure Tailwind
+  - [ ] Create frontend environment configuration
+  - [ ] Create API client
+  - [ ] Create shared API types
+  - [ ] Implement authentication API calls
+  - [ ] Implement login page
+  - [ ] Implement register page
+  - [ ] Implement logout
+  - [ ] Implement authentication state
+  - [ ] Decide final token/cookie handling
+  - [ ] Prefer secure `httpOnly` cookie handling where architecture permits
+  - [ ] Create protected-route pattern
+  - [ ] Keep backend authorization as the source of truth
+  - [ ] **Workspace UI**
+    - [ ] Workspace list
+    - [ ] Create workspace form
+    - [ ] Workspace details page
+    - [ ] Member list
+  - [ ] **Project UI**
+    - [ ] Project list
+    - [ ] Create project form
+    - [ ] Project page
+    - [ ] Basic task board
+  - [ ] **Task UI**
+    - [ ] Task list
+    - [ ] Task card
+    - [ ] Task detail page/drawer
+    - [ ] Status display
+    - [ ] Priority display
+    - [ ] Assignee display
+    - [ ] Due date display
+    - [ ] Task update UI
+    - [ ] Comments
+    - [ ] Labels
+  - [ ] **Search/filter UI**
+    - [ ] Status filter
+    - [ ] Priority filter
+    - [ ] Assignee filter
+    - [ ] Search
+    - [ ] Pagination
+    - [ ] Sorting
+  - [ ] Add loading states
+  - [ ] Add empty states
+  - [ ] Add error states
+  - [ ] Add basic responsive layout
+  - [ ] Keep UI functional rather than pixel-perfect
+  - [ ] Test the complete frontend flow against the real backend
+  - [ ] Self-review
+  - [ ] PR
+  - [ ] Merge to `main`
+  - [ ] Delete `feature/frontend-core`
+
+- [ ] **Phase 10 — Quality, Security and Hardening**
+  - [ ] **Branch: `feature/quality`**
+  - [ ] **Global errors**
+    - [ ] Create global exception filter
+    - [ ] Standardize error response
+    - [ ] Use consistent `statusCode`
+    - [ ] Use consistent `message`
+    - [ ] Use consistent `error`
+    - [ ] Include `details` only when appropriate
+  - [ ] **Validation**
+    - [ ] Audit every DTO
+    - [ ] Audit every query parameter
+    - [ ] Audit every route parameter
+    - [ ] Reject invalid enum values
+    - [ ] Reject invalid IDs
+    - [ ] Reject invalid pagination
+  - [ ] **Authorization audit**
+    - [ ] Audit every workspace route
+    - [ ] Audit every project route
+    - [ ] Audit every task route
+    - [ ] Audit every member route
+    - [ ] Audit labels
+    - [ ] Audit comments
+    - [ ] Verify no cross-workspace data leakage
+  - [ ] **Error handling**
+    - [ ] Handle Prisma unique constraint errors
+    - [ ] Handle missing-record errors
+    - [ ] Map relevant Prisma errors to Nest exceptions
+    - [ ] Avoid exposing database internals
+  - [ ] **Logging**
+    - [ ] Add structured logging
+    - [ ] Do not log passwords
+    - [ ] Do not log JWT secrets
+    - [ ] Do not log sensitive authentication data
+  - [ ] **Testing**
+    - [ ] Auth unit tests
+    - [ ] Workspace unit tests
+    - [ ] Project unit tests
+    - [ ] Task unit tests
+    - [ ] Member unit tests
+    - [ ] Integration tests for major endpoints
+    - [ ] Use dedicated test database
+    - [ ] Create one full Playwright E2E flow
+    - [ ] Register
+    - [ ] Login
+    - [ ] Create workspace
+    - [ ] Create project
+    - [ ] Create task
+    - [ ] Assign task
+    - [ ] Update task
+    - [ ] Add comment
+  - [ ] **Prisma**
+    - [ ] Review all migrations
+    - [ ] Remove accidental schema changes
+    - [ ] Verify production migration workflow
+    - [ ] Add seed data if useful
+    - [ ] Review indexes
+    - [ ] Review relation behaviour
+  - [ ] **CI**
+    - [ ] Create GitHub Actions workflow
+    - [ ] Install dependencies
+    - [ ] Run lint
+    - [ ] Run unit tests
+    - [ ] Run integration tests
+    - [ ] Run build
+    - [ ] Run frontend checks
+    - [ ] Run on pull requests
+  - [ ] **Documentation**
+    - [ ] Complete README
+    - [ ] Document architecture
+    - [ ] Document database structure
+    - [ ] Document local setup
+    - [ ] Document environment variables
+    - [ ] Document migrations
+    - [ ] Document running tests
+    - [ ] Document API structure
+    - [ ] Document major technical decisions
+  - [ ] **Final code review**
+    - [ ] Remove dead code
+    - [ ] Remove unused dependencies
+    - [ ] Remove duplicated authorization logic
+    - [ ] Extract shared helpers where justified
+    - [ ] Review naming
+    - [ ] Review folder structure
+    - [ ] Review error messages
+    - [ ] Review security-sensitive code
+  - [ ] Open final PR
+  - [ ] Merge to `main`
+  - [ ] Delete `feature/quality`
+
+- [ ] **Current starting point**
+  - [ ] **Already learned/built:** Prisma schema fundamentals
+  - [ ] **Already learned/built:** PrismaService + PrismaModule
+  - [ ] **Already learned/built:** User model basics
+  - [ ] **Already learned/built:** Task model basics
+  - [ ] **Already learned/built:** User → Task relation
+  - [ ] **Already learned/built:** Task creation
+  - [ ] **Already learned/built:** Task listing
+  - [ ] **Already learned/built:** `select`
+  - [ ] **Already learned/built:** `include`
+  - [ ] **Already learned/built:** filtering
+  - [ ] **Already learned/built:** sorting
+  - [ ] **Already learned/built:** pagination
+  - [ ] **Already learned/built:** `count`
+  - [ ] **Already learned/built:** filtered pagination
+  - [ ] **Not complete yet:** authentication
+  - [ ] **Not complete yet:** workspaces
+  - [ ] **Not complete yet:** workspace membership
+  - [ ] **Not complete yet:** projects
+  - [ ] **Not complete yet:** TeamFlow Task → Project relationship
+  - [ ] **Not complete yet:** due dates
+  - [ ] **Not complete yet:** optimistic concurrency
+  - [ ] **Not complete yet:** activity logs
+  - [ ] **Not complete yet:** member management
+  - [ ] **Not complete yet:** labels
+  - [ ] **Not complete yet:** many-to-many Task ↔ Label
+  - [ ] **Not complete yet:** comments
+  - [ ] **Not complete yet:** final unified task search/filter API
+  - [ ] **Not complete yet:** frontend
+  - [ ] **Not complete yet:** production hardening
+
+- [ ] **Recommended branch order from this point**
+  - [ ] `main` — establish TeamFlow foundation and bring in the Prisma work already completed
+  - [ ] `feature/auth`
+  - [ ] `feature/workspaces`
+  - [ ] `feature/projects`
+  - [ ] `feature/tasks-core`
+  - [ ] `feature/tasks-rules`
+  - [ ] `feature/members`
+  - [ ] `feature/labels-comments`
+  - [ ] `feature/search-filter`
+  - [ ] `feature/frontend-core`
+  - [ ] `feature/quality`
