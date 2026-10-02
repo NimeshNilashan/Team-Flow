@@ -30,32 +30,32 @@
     - [x] Create initial migration
     - [x] Apply migration
     - [x] Verify database structure
-  - [ ] **Port the NestJS Prisma integration you already built**
-    - [ ] `PrismaService`
-    - [ ] `PrismaModule`
-    - [ ] Inject `PrismaService` into services
-    - [ ] Verify NestJS starts successfully
-  - [ ] **Port the API concepts already completed**
-    - [ ] User DTO
-    - [ ] Task DTO
-    - [ ] `GET /users`
-    - [ ] `GET /users/:id` or equivalent ID route
-    - [ ] `GET /users/email/:email`
-    - [ ] User name filtering
-    - [ ] User filtering
-    - [ ] `POST /users`
-    - [ ] `GET /tasks`
-    - [ ] `POST /tasks`
-    - [ ] Task assignee relation retrieval
-    - [ ] `select`
-    - [ ] `include`
-    - [ ] `orderBy`
-    - [ ] pagination with `skip` / `take`
-    - [ ] `count`
-    - [ ] `Promise.all`
-    - [ ] `totalPages`
-    - [ ] optional task filtering
-  - [ ] Confirm everything that was previously working still works inside TeamFlow
+  - [x] **Port the NestJS Prisma integration you already built**
+    - [x] `PrismaService`
+    - [x] `PrismaModule`
+    - [x] Inject `PrismaService` into services
+    - [x] Verify NestJS starts successfully
+  - [x] **Port the API concepts already completed**
+    - [x] User DTO
+    - [x] Task DTO
+    - [x] `GET /users`
+    - [x] `GET /users/:id` or equivalent ID route
+    - [x] `GET /users/email/:email`
+    - [x] User name filtering
+    - [x] User filtering
+    - [x] `POST /users`
+    - [x] `GET /tasks`
+    - [x] `POST /tasks`
+    - [x] Task assignee relation retrieval
+    - [x] `select`
+    - [x] `include`
+    - [x] `orderBy`
+    - [x] pagination with `skip` / `take`
+    - [x] `count`
+    - [x] `Promise.all`
+    - [x] `totalPages`
+    - [x] optional task filtering
+  - [x] Confirm everything that was previously working still works inside TeamFlow
   - [ ] Commit the clean baseline to `main`
 
 - [ ] **Phase 1 — Authentication and User Management**
